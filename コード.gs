@@ -32,6 +32,10 @@ function doPost(e) {
   var date = new Date();
   var year = date.getFullYear();
   var month = date.getMonth() + 1;
+  if(month < 10)
+  {
+    month = '0' + month
+  }
   var sheet_name = year + '年' + month　+ '月'
   
   //スプレッドシート
@@ -123,22 +127,17 @@ function doPost(e) {
   to_name_cell.setFontSize('14')
   
   //1行20文字までになるように20行で行を分ける
-  var contents_val = contents.substr( 0, 20 );
+  var val_start = 0
+  var contents_val = contents.substr( val_start, 20 );
   upper_left_num = upper_left_num + 2
   upper_left_place = upper_left + upper_left_num;
-  sheet.getRange(upper_left_place).setValue(contents_val);
-  contents_val = contents.substr( 20, 20 );
-  upper_left_num = upper_left_num + 1
-  upper_left_place = upper_left + upper_left_num;
-  sheet.getRange(upper_left_place).setValue(contents_val);
-  contents_val = contents.substr( 40, 20 );
-  upper_left_num = upper_left_num + 1
-  upper_left_place = upper_left + upper_left_num;
-  sheet.getRange(upper_left_place).setValue(contents_val);
-  contents_val = contents.substr( 60, 20 );
-  upper_left_num = upper_left_num + 1
-  upper_left_place = upper_left + upper_left_num;
-  sheet.getRange(upper_left_place).setValue(contents_val);
+  while(val_start <= 60){
+    sheet.getRange(upper_left_place).setValue(contents_val);
+    val_start += 20;
+    contents_val = contents.substr( val_start, 20 );
+    upper_left_num = upper_left_num + 1
+    upper_left_place = upper_left + upper_left_num;
+  }
   
   //FROMの値を入力。文字の大きさ変更
   var bottom_place_cell = bottom_place + bottom_right_num;
